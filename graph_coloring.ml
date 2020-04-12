@@ -36,7 +36,15 @@ let graph =
 (*fin add_edge*)
 
 (*remove_vertex*)
-  (*TODO*)
+let remove_vertex u g =
+  let voisins_de_u = try StringMap.find u g with Not_found -> StringSet.empty in
+  let g' = StringMap.remove u g in
+  let a0 = g' in
+      StringSet.fold
+        (fun v a ->
+          remove_edge v u a)
+        voisins_de_u
+        a0;;
 (*fin remove_vertex*)
 
 
