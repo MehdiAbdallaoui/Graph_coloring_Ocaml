@@ -1,3 +1,5 @@
+(*Graphes non-orientés*)
+
 module StringSet = Set.Make(String)
 
 module StringMap = Map.Make(String)
@@ -32,4 +34,19 @@ let graph =
   add_edge "g" "m" g     
 
 (*fin add_edge*)
+
+(*remove_vertex*)
+  (*TODO*)
+(*fin remove_vertex*)
+
+
+(*Coloriages disponibles*)
+(*Module IntSet*)
+module Int = struct
+  type t = int
+  let compare = fun x y -> x - y (*or let compare = compare, to verify*)
+end
+  
+module IntSet = Set.Make(Int) (*On crée un module IntSet qui aura les mêmes attributs/fonctions que Set.Make ayant les propriétés de Int *)
+(*fin module IntSet*)
 
