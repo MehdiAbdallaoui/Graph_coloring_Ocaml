@@ -58,3 +58,7 @@ let rec color_set_aux i j acc = if i > j then IntSet.empty
 
 let color_set j = color_set_aux 1 j IntSet.empty;;
 (*fin color_set*)
+
+(*disp_color*)
+type disp_color = IntSet.t StringMap.t
+(*fin disp_color*)
