@@ -54,9 +54,9 @@ module IntSet = Set.Make(Int) (*On crée un module IntSet qui aura les mêmes at
 (*color_set*)
 let rec color_set_aux i j acc = if i > j then IntSet.empty 
                                 else if i = j then IntSet.add i acc 
-                                else let acc1 = IntSet.add i acc in (color_set_aux (i+1) j acc1);;
+                                else let acc1 = IntSet.add i acc in (color_set_aux (i+1) j acc1)
 
-let color_set j = color_set_aux 1 j IntSet.empty;;
+let color_set j = color_set_aux 1 j IntSet.empty
 (*fin color_set*)
 
 (*disp_color*)
