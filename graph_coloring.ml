@@ -149,3 +149,8 @@ let try_first_test = try_first (fun x -> if x < 4 then raise (Failed "Echec") el
 let try_first_test = try_first (fun x -> if x < 5 then raise (Failed "Echec") else x) s
 (*fin test*)
 (*fin try_first*)
+
+
+(*coloring*)
+type coloring = int StringMap.t;;
+(*fin coloring*)
