@@ -119,3 +119,11 @@ let remove_color i v c =
     let v_succ' = (IntSet.remove i v_succ) in
       (StringMap.add v v_succ' c)
 (*fin remove_color*)
+
+(*exception Failed*)
+exception Failed of string
+
+(*Test*)
+let test_exception f = if f=0 then raise (Failed "Pas de chance! Aucun coloriage n'a ete trouve.");;
+(*fin test*)
+(*fin exception Failed*)
