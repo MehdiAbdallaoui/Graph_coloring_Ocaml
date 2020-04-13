@@ -124,6 +124,28 @@ let remove_color i v c =
 exception Failed of string
 
 (*Test*)
-let test_exception f = if f=0 then raise (Failed "Pas de chance! Aucun coloriage n'a ete trouve.");;
+let test_exception f = if f=0 then raise (Failed "Pas de chance! Aucun coloriage n'a ete trouve.")
 (*fin test*)
 (*fin exception Failed*)
+
+(*try_first*)
+let rec try_first f s = 
+  let exception_message = "Pas de chance! Aucun coloriage n'a ete trouve." in
+    if s = IntSet.empty then raise (Failed exception_message)
+    else let i = IntSet.choose s in
+      try f i 
+      with Failed _ -> let s' = IntSet.remove i s in
+                        try_first f s'
+
+(*Test*)
+let s =                             
+  let s0 = IntSet.add 1 IntSet.empty in
+  let s0 = IntSet.add 2 s0 in
+  let s0 = IntSet.add 3 s0 in
+  IntSet.add 4 s0
+
+let try_first_test = try_first (fun x -> if x < 4 then raise (Failed "Echec") else x) s
+
+let try_first_test = try_first (fun x -> if x < 5 then raise (Failed "Echec") else x) s
+(*fin test*)
+(*fin try_first*)
