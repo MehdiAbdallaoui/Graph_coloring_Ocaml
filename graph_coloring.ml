@@ -75,3 +75,40 @@ let color_set j = color_set_aux 1 j IntSet.empty
 (*disp_color*)
 type disp_color = IntSet.t StringMap.t
 (*fin disp_color*)
+
+
+(*to_dot_init_colors*)
+let to_dot_init_colors g =
+  let _ = Printf.printf "MonGraph init colors {\n" in
+  let _ =
+    StringMap.iter (fun u us -> IntSet.iter (fun v -> Printf.printf "  %s -> %d;\n" u v) us) g
+  in
+  Printf.printf "}\n"
+
+(*fin to_dot_init_colors*)
+
+(*add_edge_init_colors*)
+let add_edge_init_colors u v g = 
+  let u_succ = try StringMap.find u g with Not_found -> IntSet.empty in   
+  let u_succ' = (IntSet.add v u_succ) in
+  (StringMap.add u u_succ' g)
+(*fin add_edge_init_colors*)
+
+
+(*init_colors*)
+let init_colors g k =
+  let acc = StringSet.empty in
+    let nodes_of_g = StringMap.fold (fun u us a -> StringSet.add u a) g acc in
+      let range = color_set k in
+        let graph = StringMap.empty in
+          StringSet.fold
+            (fun v g -> 
+              IntSet.fold
+                (fun r g1->
+                add_edge_init_colors v r g1)
+                range
+                g
+            )
+            nodes_of_g
+            graph;;
+(*fin init_colors*)
