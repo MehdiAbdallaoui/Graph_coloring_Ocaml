@@ -110,5 +110,12 @@ let init_colors g k =
                 g
             )
             nodes_of_g
-            graph;;
+            graph
 (*fin init_colors*)
+
+(*remove_color*)
+let remove_color i v c =
+  let v_succ = try StringMap.find v c with Not_found -> IntSet.empty in   
+    let v_succ' = (IntSet.remove i v_succ) in
+      (StringMap.add v v_succ' c)
+(*fin remove_color*)
