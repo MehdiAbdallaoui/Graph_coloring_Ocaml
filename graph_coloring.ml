@@ -26,15 +26,13 @@ let to_dot g =
 (*add_edge*)
     
 let add_edge_aux u v g = 
-  let u_succ = try StringMap.find u g with Not_found -> StringSet.empty in  (* Get successor nodes of u *)
-  let u_succ' = (StringSet.add v u_succ) in  (* add v to the successor of u *)
+  let u_succ = try StringMap.find u g with Not_found -> StringSet.empty in
+  let u_succ' = (StringSet.add v u_succ) in
   (StringMap.add u u_succ' g)     
-
-         (* We used add_edge_aux to help as to add both nodes as successors ...*) 
     
 let add_edge u v g =
-  let g' = (add_edge_aux u v g) in (* add v as a successor of u *)
-  (add_edge_aux v u g') (* add also u as a successor of u *)
+  let g' = (add_edge_aux u v g) in
+  (add_edge_aux v u g')
 
 let graph =
   let g = add_edge "a" "b" StringMap.empty in
@@ -56,27 +54,12 @@ let remove_vertex u g =
   let voisins_de_u = try StringMap.find u g with Not_found -> StringSet.empty in
   let g' = StringMap.remove u g in StringSet.fold (fun v a -> remove_edge v u a) voisins_de_u g'
        
-(*
-digraph MonGraph {
-  a -> b;
-  a -> c;
-  a -> d;
-  b -> a;
-  c -> a;
-  d -> a;
-}
-
-remove_vertex "a" graph5 ;;
-
-if faut qu'on suprimme aussi les noeuds liés au noeud 
-fin remove_vertex*)
-
 
 (*Coloriages disponibles*)
 (*Module IntSet*)
 module Int = struct
   type t = int
-  let compare = fun x y -> x - y (*or let compare = compare, to verify*)
+  let compare = fun x y -> x - y
 end
   
 module IntSet = Set.Make(Int) (*On crée un module IntSet qui aura les mêmes attributs/fonctions que Set.Make ayant les propriétés de Int *)
@@ -89,18 +72,18 @@ let rec color_set_aux i j acc = if i > j then IntSet.empty
                                 else if i = j then IntSet.add i acc 
                                 else let acc1 = IntSet.add i acc in (color_set_aux (i+1) j acc1)
 
-let color_set j =  color_set_aux 1 j IntSet.empty
 
-(* 
-   should we verify if we use this exception or not ?
-   if j < 1 then failwith  "the color's number should be bigger than 0"
+let color_set j = color_set_aux 1 j IntSet.empty
+(*
+déclaration de color_set avec une exception
+let color_set j = if j <= 1 then failwith "Impossible" else color_set_aux 1 j IntSet.empty;;
 *)
-    
+
 (*fin color_set*)
 
 (*disp_color*)
     
-type disp_color = IntSet.t StringMap.t (* i think that we should use StringSet and IntSet TODO *) 
+type disp_color = IntSet.t StringMap.t 
     
 (*fin disp_color*)
 
@@ -118,7 +101,7 @@ let to_dot_init_colors g =
 (*add_edge_init_colors*)
     
 let add_edge_init_colors u v g = 
- (fun x -> if x < 5 then raise (Failed "Echec") else x) let u_succ = try StringMap.find u g with Not_found -> IntSet.empty in   
+ let u_succ = try StringMap.find u g with Not_found -> IntSet.empty in   
   let u_succ' = (IntSet.add v u_succ) in
   (StringMap.add u u_succ' g)
 
@@ -138,7 +121,7 @@ let init_colors g k =
 (*remove_color*)
 	    
 let remove_color i v c =
-  let v_succ = StringMap.find v c  in   (* est ce qu'il faut pas laisser l'exception ?? *)
+  let v_succ = StringMap.find v c  in
     let v_succ' = (IntSet.remove i v_succ) in (StringMap.add v v_succ' c)
       
 (*fin remove_color*)
@@ -167,25 +150,31 @@ let s =
 let try_first_test = try_first (fun x -> if x < 4 then raise (Failed "Echec") else x) s
 
 let try_first_test = try_first (fun x -> if x < 5 then raise (Failed "Echec") else x) s
-  
+
+let try_first_test = try_first (fun x -> if (x=1 || x=2) then raise (Failed "ERREUR 404") else x) s
+
 (*fin test*)
 (*fin try_first*)
 
 
 (*coloring*)
-  
-type coloring = int StringMap.t ;; (* je propose int StringSet.t *)
-
+type coloring = int StringMap.t
 (*fin coloring*)
 
+(*to_dot_coloriage*)
+let to_dot_coloriage g =
+  let _ = Printf.printf "MonGraph coloré {\n" in
+  let _ =
+    StringMap.iter (fun u us -> Printf.printf " %s -> %d \n" u us) g
+  in
+  Printf.printf "}\n"
+(*fin to_dot_coloriage*)
 
+(*coloring*) 
+type coloring = int StringMap.t
+(*fin coloring*)
 
-(* 
-   color function
-*)
-let choosefrom graph=
-  let (noeud,voisins) = StringMap.choose graph in noeud
-					       
+(*color*)
 
 let rec color g c =
   if StringMap.is_empty g then StringMap.empty
@@ -200,9 +189,29 @@ let rec color g c =
       )
       s_colors
 
-let to_dot_init_colors_2 g =
-  let _ = Printf.printf "MonGraph init colors {\n" in
-  let _ =
-    StringMap.iter (fun u us -> Printf.printf "  %s -> %d;\n" u us) g
-  in
-  Printf.printf "}\n"
+
+(*test*)
+let graph =
+  let g = add_edge "a" "c" StringMap.empty in
+  let g = add_edge "a" "e" g in
+  let g = add_edge "a" "d" g in
+  let g = add_edge "b" "d" g in
+  let g = add_edge "d" "e" g in
+  let g = add_edge "d" "f" g in          
+  add_edge "e  " "f" g;;
+
+to_dot graph;;
+
+(*let c = init_colors graph 2 in
+let color_test = color graph c (*Exception: Failed "Pas de chance! Aucun coloriage n'a ete trouve."*)*)
+
+let c = init_colors graph 3;;
+
+to_dot_init_colors c;;
+
+let color_test = color graph c;;
+
+to_dot_coloriage color_test;;
+(*fin test*)
+(*fin color*)
+
