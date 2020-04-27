@@ -70,6 +70,10 @@ let rec color_set_aux i j acc = if i > j then IntSet.empty
                                 else let acc1 = IntSet.add i acc in (color_set_aux (i+1) j acc1)
 
 let color_set j = color_set_aux 1 j IntSet.empty
+(*
+déclaration de color_set avec une exception
+let color_set j = if j <= 1 then failwith "Impossible" else color_set_aux 1 j IntSet.empty;;
+*)
 (*fin color_set*)
 
 (*disp_color*)
@@ -147,10 +151,62 @@ let s =
 let try_first_test = try_first (fun x -> if x < 4 then raise (Failed "Echec") else x) s
 
 let try_first_test = try_first (fun x -> if x < 5 then raise (Failed "Echec") else x) s
+
+let try_first_test = try_first (fun x -> if (x=1 || x=2) then raise (Failed "ERREUR 404") else x) s
 (*fin test*)
 (*fin try_first*)
 
 
 (*coloring*)
-type coloring = int StringMap.t;;
+type coloring = int StringMap.t
 (*fin coloring*)
+
+(*to_dot_coloriage*)
+let to_dot_coloriage g =
+  let _ = Printf.printf "MonGraph coloré {\n" in
+  let _ =
+    StringMap.iter (fun u us -> Printf.printf " %s -> %d \n" u us) g
+  in
+  Printf.printf "}\n"
+(*fin to_dot_coloriage*)
+
+(*color*)
+let rec color g c =
+  if StringMap.is_empty g then StringMap.empty
+  else
+    let (s,voisins) = StringMap.choose g in
+
+    let s_colors = StringMap.find s c in
+
+    try_first (fun col -> let g' = remove_vertex s g in
+			  let c' = StringSet.fold (fun v gc -> remove_color col v gc) voisins c in
+			  StringMap.add s col (color g' c')   
+      )
+      s_colors
+
+(*test*)
+let graph =
+  let g = add_edge "a" "c" StringMap.empty in
+  let g = add_edge "a" "e" g in
+  let g = add_edge "a" "d" g in
+  let g = add_edge "b" "d" g in
+  let g = add_edge "d" "e" g in
+  let g = add_edge "d" "f" g in          
+  add_edge "e  " "f" g;;
+
+to_dot graph;;
+
+(*let c = init_colors graph 2 in
+let color_test = color graph c (*Exception: Failed "Pas de chance! Aucun coloriage n'a ete trouve."*)*)
+
+let c = init_colors graph 3;;
+
+to_dot_init_colors c;;
+
+let color_test = color graph c;;
+
+to_dot_coloriage color_test;;
+(*fin test*)
+(*fin color*)
+
+
