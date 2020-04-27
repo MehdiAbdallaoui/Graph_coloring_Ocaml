@@ -109,6 +109,7 @@ let add_edge_init_colors u v g =
 
 
 (*init_colors*)
+(*Méthode 1*)
 let init_colors g k =
   let acc = StringSet.empty in
     let nodes_of_g = StringMap.fold (fun u us a -> StringSet.add u a) g acc in
@@ -116,6 +117,14 @@ let init_colors g k =
         let graph = StringMap.empty in
         StringSet.fold (fun v g -> IntSet.fold (fun r g1-> add_edge_init_colors v r g1) range g) nodes_of_g graph
 	  
+(*fin Méthode 1*)
+
+(*Méthode 2*)
+(*
+  let init_colors g k =
+    StringMap.map (fun a -> color_set k) g
+*)
+(*fin Méthode 2*)
 (*fin init_colors*)
 
 (*remove_color*)
