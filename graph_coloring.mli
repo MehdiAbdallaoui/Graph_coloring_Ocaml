@@ -1,14 +1,14 @@
 type graph
 
-val to_dot : StringSet.t StringMap.t -> unit
+val to_dot : graph -> unit
 
-val add_edge_aux : StringMap.key -> StringSet.elt -> StringSet.t StringMap.t -> StringSet.t StringMap.t
+val add_edge_aux : string -> string -> graph -> graph
 
-val add_edge : StringMap.key -> StringSet.elt -> StringSet.t StringMap.t -> StringSet.t StringMap.t
+val add_edge : string -> string -> graph -> graph
 
-val remove_edge : StringMap.key -> StringSet.elt -> StringSet.t StringMap.t -> StringSet.t StringMap.t
+val remove_edge : string -> string -> graph -> graph
 
-val remove_vertex : StringMap.key -> StringSet.t StringMap.t -> StringSet.t StringMap.t
+val remove_vertex : string -> graph -> graph
 
 (*A VERIFIER : interface du module Int*)
 module Int : 
@@ -19,21 +19,22 @@ end
 
 (*TODO : interface du module IntSet si c'est faisable*)
 
-val color_set_aux : IntSet.elt -> IntSet.elt -> IntSet.t -> IntSet.t
+val color_set_aux : int -> int -> IntSet.t -> IntSet.t
 
-val color_set : IntSet.elt -> IntSet.t
+val color_set : int -> IntSet.t
 
 type disp_color
 
-val to_dot_init_colors : IntSet.t StringMap.t -> unit
+val to_dot_init_colors : disp_color -> unit
 
-val add_edge_init_colors : StringMap.key -> IntSet.elt -> IntSet.t StringMap.t -> IntSet.t StringMap.t
+val add_edge_init_colors : string -> int -> disp_color -> disp_color
 
-val init_colors : 'a StringMap.t -> IntSet.elt -> IntSet.t StringMap.t
+val init_colors : graph -> int -> disp_color
 
-val remove_color : IntSet.elt -> StringMap.key -> IntSet.t StringMap.t -> IntSet.t StringMap.t
+val remove_color : int -> string -> disp_color -> disp_color
 
-val try_first : (IntSet.elt -> 'a) -> IntSet.t -> 'a
+val try_first : (int -> 'a) -> IntSet.t -> 'a
 
 type coloring
 
+val color : graph -> disp_color -> coloring
