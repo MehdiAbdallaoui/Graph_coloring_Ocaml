@@ -10,14 +10,16 @@ val remove_edge : string -> string -> graph -> graph
 
 val remove_vertex : string -> graph -> graph
 
-(*A VERIFIER : interface du module Int*)
 module Int : 
 sig 
   type t 
   val compare : int -> int -> int
 end
 
-(*TODO : interface du module IntSet si c'est faisable*)
+module IntSet :
+  sig
+    type t
+  end
 
 val color_set_aux : int -> int -> IntSet.t -> IntSet.t
 
