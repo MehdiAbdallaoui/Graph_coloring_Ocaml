@@ -179,12 +179,7 @@ let to_dot_coloriage g =
   Printf.printf "}\n"
 (*fin to_dot_coloriage*)
 
-(*coloring*) 
-type coloring = int StringMap.t
-(*fin coloring*)
-
 (*color*)
-
 let rec color g c =
   if StringMap.is_empty g then StringMap.empty
   else
@@ -207,7 +202,7 @@ let graph =
   let g = add_edge "b" "d" g in
   let g = add_edge "d" "e" g in
   let g = add_edge "d" "f" g in          
-  add_edge "e  " "f" g;;
+  add_edge "e" "f" g;;
 
 to_dot graph;;
 
