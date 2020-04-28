@@ -1,13 +1,10 @@
-all: graph_coloring.cmi graph_coloring.cmo
+all: interface code test
 
-%.cmo: %.ml
-	ocamlc $<
-
-%.cmi: %.mli
+interface: graph_coloring.mli
 	ocamlc -c $<
 
-graph_coloring.cmi: graph_coloring.mli
-	ocamlc -c $<
-
-graph_coloring.cmo: graph_coloring.ml
+code: graph_coloring.ml
 	ocamlc $<
+
+test: test_coloriage.ml
+	ocaml test_coloriage.ml
