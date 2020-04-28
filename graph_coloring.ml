@@ -68,7 +68,7 @@ module IntSet = Set.Make(Int) (*On crée un module IntSet qui aura les mêmes at
 
 (*color_set*)
   
-let rec color_set_aux i j acc = if i > j then IntSet.empty 
+let rec color_set_aux i j acc = if i > j then raise (Failure "Echec! Votre argument doit etre >= 1") 
                                 else if i = j then IntSet.add i acc 
                                 else let acc1 = IntSet.add i acc in (color_set_aux (i+1) j acc1)
 
