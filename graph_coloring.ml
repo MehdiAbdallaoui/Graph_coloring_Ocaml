@@ -11,13 +11,11 @@ type graph = StringSet.t StringMap.t
 *)
     
 let to_dot g =
-  let _ = Printf.printf "digraph MonGraph {\n" in
+  let _ = Printf.printf "graph MonGraph {\n" in
   let _ =
     StringMap.iter (fun u us -> if(StringSet.is_empty us)
-      then
-	Printf.printf " %s -> Empty" u
-      else 
-	StringSet.iter (fun v -> Printf.printf "  %s -> %s;\n" u v) us) g
+      then Printf.printf " %s -- Empty" u
+      else StringSet.iter (fun v -> Printf.printf "  %s -- %s;\n" u v) us) g
   in
   Printf.printf "}\n"
 
@@ -92,7 +90,7 @@ type disp_color = IntSet.t StringMap.t
 let to_dot_init_colors g =
   let _ = Printf.printf "MonGraph init colors {\n" in
   let _ =
-    StringMap.iter (fun u us -> IntSet.iter (fun v -> Printf.printf "  %s -> %d;\n" u v) us) g
+    StringMap.iter (fun u us -> IntSet.iter (fun v -> Printf.printf "  %s -- %d;\n" u v) us) g
   in
   Printf.printf "}\n"
 
@@ -174,7 +172,7 @@ type coloring = int StringMap.t
 let to_dot_coloriage g =
   let _ = Printf.printf "MonGraph coloré {\n" in
   let _ =
-    StringMap.iter (fun u us -> Printf.printf " %s -> %d \n" u us) g
+    StringMap.iter (fun u us -> Printf.printf " %s -- %d \n" u us) g
   in
   Printf.printf "}\n"
 (*fin to_dot_coloriage*)
