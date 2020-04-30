@@ -141,7 +141,7 @@ type disp_color = IntSet.t StringMap.t
 (*
     * fonction: to_dot_init_colors
     * Rôle: Affiche le map sous-forme d'associations (noeuds, couleurs).
-    *  @param g => Le graphe cible de type "disp_color"
+    *  @param g => Le map cible de type "disp_color"
 *)
 let to_dot_init_colors g =
   let _ = Printf.printf "MonGraph init colors {\n" in
@@ -156,7 +156,7 @@ let to_dot_init_colors g =
     * Rôle: Ajoute la couleur v à celles associées au noeud u dans le map g, et retourne le nouveau map
     *  @param u => Le noeud dont l'ensemble des couleurs sera mis-à-jour
     *  @param v => La couleur à associer à u
-    *  @param g => Le graphe auquel u appartient
+    *  @param g => Le map auquel u appartient
 *)    
 let add_edge_init_colors u v g = 
  let u_succ = try StringMap.find u g with Not_found -> IntSet.empty in   
@@ -253,7 +253,7 @@ type coloring = int StringMap.t
 (*
     * fonction: to_dot_coloriage
     * Rôle: Affiche le map sous-forme d'associations (noeud, couleur).
-    *  @param g => Le graphe cible de type "coloring"
+    *  @param g => Le map cible de type "coloring"
 *)
 let to_dot_coloriage g =
   let _ = Printf.printf "MonGraph coloré {\n" in
