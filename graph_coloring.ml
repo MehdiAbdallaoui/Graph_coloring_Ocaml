@@ -1,15 +1,25 @@
-(*Graphes non-orientés*)
+                                                
+                                                (******************************)
+                                                (*    Graphes non-orientés    *)
+                                                (******************************)
 
+(*
+    * type: graph
+    * Rôle: Définit un graphe dont tous les noeuds sont de type string. Il associe à chacun des noeuds un ensemble de noeuds
+            (successeurs) de type string également, d'où le StringSet.t
+*)
 module StringSet = Set.Make(String)
 
 module StringMap = Map.Make(String)
 
 type graph = StringSet.t StringMap.t
 
-(*to_dot
-  Modification de to_dot
-*)
-    
+
+(*
+    * fonction: to_dot
+    * Rôle: Affiche le graphe non-orienté sous-forme d'associations (noeuds, successeurs) avec des arcs non-orientés.
+    *  @param g => Le graphe cible de type "graph"
+*)    
 let to_dot g =
   let _ = Printf.printf "graph MonGraph {\n" in
   let _ =
@@ -19,74 +29,120 @@ let to_dot g =
   in
   Printf.printf "}\n"
 
-(*fin to_dot*)
 
-(*add_edge*)
-    
+
+(*
+    * fonction: add_edge_aux
+    * Rôle: Ajoute le noeud v aux successeurs du noeud u dans le graphe g, et retourne le nouveau graphe
+    *  @param u => Le noeud dont l'ensemble de ses successeurs sera mis-à-jour
+    *  @param v => Le successeur à associer à u
+    *  @param g => Le graphe auquel u appartient
+*)     
 let add_edge_aux u v g = 
   let u_succ = try StringMap.find u g with Not_found -> StringSet.empty in
   let u_succ' = (StringSet.add v u_succ) in
   (StringMap.add u u_succ' g)     
-    
+
+(*
+    * fonction: add_edge
+    * Rôle: Crée un arc non-orienté dont les extrémités sont u et v, dans le graphe g, et retourne le nouveau graphe
+    *  @param u => L'une des extrémités de l'arc
+    *  @param v => L'autre extrémité de l'arc
+    *  @param g => Le graphe cible
+*)
 let add_edge u v g =
   let g' = (add_edge_aux u v g) in
   (add_edge_aux v u g')
 
+(*
+    * Exemple de test
+    * Rôle: Crée un graphe appelé "graph" ayant 3 arcs non-orientés
+*)
 let graph =
   let g = add_edge "a" "b" StringMap.empty in
   let g = add_edge "b" "c" g in
   add_edge "c" "a" g 
-
-
-(*fin add_edge*)
-
     
-(*remove_vertex*)
-    
-let remove_edge u v g = 
+
+(*
+    * fonction: remove_node
+    * Rôle: Supprime le noeud v des successeurs du noeud u, dans le graphe g, et retourne le nouveau graphe
+    *  @param u => Le noeud dont l'ensemble des successeurs sera mis-à-jour
+    *  @param v => Le noeud à supprimer des successeurs de u
+    *  @param g => Le graphe auquel u appartient
+*)
+let remove_node u v g = 
   let u_succ = try StringMap.find u g with Not_found -> StringSet.empty in   
   let u_succ' = (StringSet.remove v u_succ) in (StringMap.add u u_succ' g)
 
-
+(*
+    * fonction: remove_vertex
+    * Rôle: Supprime le noeud u dans le graphe g, et ce en supprimant tous les arcs ayant u comme extrémité,
+            puis, retourne le nouveau graphe
+    *  @param u => Le noeud à supprimer
+    *  @param g => Le graphe auquel u appartient
+*)
 let remove_vertex u g =
   let voisins_de_u = try StringMap.find u g with Not_found -> StringSet.empty in
-  let g' = StringMap.remove u g in StringSet.fold (fun v a -> remove_edge v u a) voisins_de_u g'
+  let g' = StringMap.remove u g in StringSet.fold (fun v a -> remove_node v u a) voisins_de_u g'
        
 
-(*Coloriages disponibles*)
+
+                                                (******************************)
+                                                (*    Coloriages disponibles  *)
+                                                (******************************)
+
 (*Module IntSet*)
+(*
+    * module : Int
+    * Rôle: Définit un module dont le type est un entier
+*)
 module Int = struct
   type t = int
   let compare = fun x y -> x - y
 end
   
-module IntSet = Set.Make(Int) (*On crée un module IntSet qui aura les mêmes attributs/fonctions que Set.Make ayant les propriétés de Int *)
+(*
+    * module: IntSet
+    * Rôle: Crée un module IntSet qui aura les mêmes attributs/fonctions que Set.Make avec les propriétés
+            du module Int déclaré au-dessus
+*)
+module IntSet = Set.Make(Int) (* *)
 (*fin module IntSet*)
 
 
-(*color_set*)
-  
+(*
+    * fonction: color_set_aux
+    * Rôle: Crée un intervalle de type IntSet, dont les extrémités sont i et j
+    *  @param i => L'extrémité inférieure de l'intervalle
+    *  @param j => L'extrémité supérieure de l'intervalle
+    *  @param acc => Le IntSet initial ou l'intervalle vide de départ
+*)  
 let rec color_set_aux i j acc = if i > j then raise (Failure "Echec! Votre argument doit etre >= 1") 
                                 else if i = j then IntSet.add i acc 
                                 else let acc1 = IntSet.add i acc in (color_set_aux (i+1) j acc1)
 
-
-let color_set j = color_set_aux 1 j IntSet.empty
 (*
-déclaration de color_set avec une exception
-let color_set j = if j <= 1 then failwith "Impossible" else color_set_aux 1 j IntSet.empty;;
+    * fonction: color_set
+    * Rôle: Crée un intervalle de type IntSet, dont les extrémités sont 1 et j
+    *  @param j => L'extrémité supérieure de l'intervalle
 *)
+let color_set j = color_set_aux 1 j IntSet.empty
 
-(*fin color_set*)
 
-(*disp_color*)
-    
+(*
+    * type: disp_color
+    * Rôle: Définit un map dont tous les noeuds sont de type string, mais qui associe à chacun de ces noeuds un ensemble
+            de couleurs de type entier, d'où le IntSet.t
+*)
 type disp_color = IntSet.t StringMap.t 
-    
-(*fin disp_color*)
 
-(*to_dot_init_colors*)
 
+(*
+    * fonction: to_dot_init_colors
+    * Rôle: Affiche le map sous-forme d'associations (noeuds, couleurs).
+    *  @param g => Le graphe cible de type "disp_color"
+*)
 let to_dot_init_colors g =
   let _ = Printf.printf "MonGraph init colors {\n" in
   let _ =
@@ -94,19 +150,27 @@ let to_dot_init_colors g =
   in
   Printf.printf "}\n"
 
-(*fin to_dot_init_colors*)
 
-(*add_edge_init_colors*)
-    
+(*
+    * fonction: add_edge_init_colors
+    * Rôle: Ajoute la couleur v à celles associées au noeud u dans le map g, et retourne le nouveau map
+    *  @param u => Le noeud dont l'ensemble des couleurs sera mis-à-jour
+    *  @param v => La couleur à associer à u
+    *  @param g => Le graphe auquel u appartient
+*)    
 let add_edge_init_colors u v g = 
  let u_succ = try StringMap.find u g with Not_found -> IntSet.empty in   
   let u_succ' = (IntSet.add v u_succ) in
   (StringMap.add u u_succ' g)
 
-(*fin add_edge_init_colors*)
 
+(*
+    * fonction: init_colors
+    * Rôle: Retourne un map qui associe à chaque sommet du graphe g l’ensemble des entiers de 1 à k
+    *  @param g => Le graphe auquel u appartient
+    *  @param k => L'extrémité supérieure de l'intervalle à associer aux noeuds de g
+*)
 
-(*init_colors*)
 (*Méthode 1*)
 let init_colors g k =
   let acc = StringSet.empty in
@@ -122,32 +186,50 @@ let init_colors g k =
   let init_colors g k =
     StringMap.map (fun a -> color_set k) g
 *)
-(*fin Méthode 2*)
-(*fin init_colors*)
 
-(*remove_color*)
-	    
+(*fin Méthode 2*)
+
+(*
+    * fonction: remove_color
+    * Rôle: Supprime la couleur i de l'ensemble des couleurs associées au noeud v, dans le map c, et retourne le nouveau map
+    *  @param v => Le noeud dont l'ensemble des couleurs sera mis-à-jour
+    *  @param i => La couleur à supprimer des couleurs disponibles pour v
+    *  @param c => Le map auquel v appartient
+*)	    
 let remove_color i v c =
   let v_succ = StringMap.find v c  in
     let v_succ' = (IntSet.remove i v_succ) in (StringMap.add v v_succ' c)
       
-(*fin remove_color*)
 
-(*exception Failed*)
-      
+
+                                                (******************************)
+                                                (*          Coloriage         *)
+                                                (******************************)
+(*
+    * exception: Failed
+    * Rôle: Cette exception se lève en affichant un message d'erreur personnalisé
+    *  @param => Elle prend en paramètre un string qui est le message d'erreur à afficher
+*)      
 exception Failed of string
-   
-(*fin exception Failed*)
 
-(*try_first*)
-    
+
+(*
+    * fonction: try_first
+    * Rôle: Retourne le premier résultat de l’application de f à un élément de s qui ne lève pas l’exception Failed
+    *  @param f => La fonction à appliquer sur les éléments de s
+    *  @param s => Le IntSet à partir duquel try_first choisit les éléments pour leur appliquer la fonction f
+*)
 let rec try_first f s = 
   let exception_message = "Pas de chance! Aucun coloriage n'a ete trouve." in
     if s = IntSet.empty then raise (Failed exception_message)
     else let i = IntSet.choose s in
       try f i with Failed _ -> let s' = IntSet.remove i s in try_first f s'
 
-(*Test*)
+(*
+    * Exemple de test
+    * Rôle: Crée un IntSet ayant les valeurs de 1 à 4, puis on lui on applique 3 fonctions anonymes différentes pour couvrir
+            les différents cas.
+*)
 let s =                             
   let s0 = IntSet.add 1 IntSet.empty in
   let s0 = IntSet.add 2 s0 in
@@ -160,24 +242,35 @@ let try_first_test = try_first (fun x -> if x < 5 then raise (Failed "Echec") el
 
 let try_first_test = try_first (fun x -> if (x=1 || x=2) then raise (Failed "ERREUR 404") else x) s
 
-(*fin test*)
-(*fin try_first*)
 
-
-(*coloring*)
+(*
+    * type: coloring
+    * Rôle: Définit un map dont tous les noeuds sont de type string, mais qui associe à chacun de ces noeuds une et une seule
+            couleur de type entier, d'où le int.
+*)
 type coloring = int StringMap.t
-(*fin coloring*)
 
-(*to_dot_coloriage*)
+(*
+    * fonction: to_dot_coloriage
+    * Rôle: Affiche le map sous-forme d'associations (noeud, couleur).
+    *  @param g => Le graphe cible de type "coloring"
+*)
 let to_dot_coloriage g =
   let _ = Printf.printf "MonGraph coloré {\n" in
   let _ =
     StringMap.iter (fun u us -> Printf.printf " %s -- %d \n" u us) g
   in
   Printf.printf "}\n"
-(*fin to_dot_coloriage*)
 
-(*color*)
+
+(*
+    * fonction: color
+    * Rôle: Attribue une couleur parmi celles disponibles pour chacun des noeuds dans le map c, à chacun des sommets
+            du graphe g de manière que deux sommets reliés par une arête soient de couleurs différentes, et retourne un map
+            coloré de type "coloring"
+    *  @param g => Le graphe de type "graph"
+    *  @param c => Le graphe de type "disp_color"
+*)
 let rec color g c =
   if StringMap.is_empty g then StringMap.empty
   else
@@ -192,7 +285,15 @@ let rec color g c =
       s_colors
 
 
-(*test*)
+(*
+    * Exemple de test
+    * Rôle: - Créer le graphe présenté sur l'énoncé
+            - L'afficher
+            - Créer un map "c" qui associe 3 couleurs à tous les noeuds
+            - L'afficher
+            - Appliquer la fonction "color" au graphe et map créé précédemment
+            - Afficher le coloriage
+*)
 let graph =
   let g = add_edge "a" "c" StringMap.empty in
   let g = add_edge "a" "e" g in
@@ -204,8 +305,10 @@ let graph =
 
 to_dot graph;;
 
-(*let c = init_colors graph 2 in
-let color_test = color graph c (*Exception: Failed "Pas de chance! Aucun coloriage n'a ete trouve."*)*)
+(* Cas d'aucun coloriage trouvé :
+let c = init_colors graph 2 in
+let color_test = color graph c
+*)
 
 let c = init_colors graph 3;;
 
@@ -214,6 +317,3 @@ to_dot_init_colors c;;
 let color_test = color graph c;;
 
 to_dot_coloriage color_test;;
-(*fin test*)
-(*fin color*)
-
