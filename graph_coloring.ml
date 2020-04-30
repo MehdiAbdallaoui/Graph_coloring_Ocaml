@@ -117,6 +117,8 @@ module IntSet = Set.Make(Int) (* *)
     *  @param i => L'extrémité inférieure de l'intervalle
     *  @param j => L'extrémité supérieure de l'intervalle
     *  @param acc => Le IntSet initial ou l'intervalle vide de départ
+    * Exception : Lève une exception Failure si l'extrémité droite de l'intervalle est strictement inférieure à
+                  son extrémité gauche
 *)  
 let rec color_set_aux i j acc = if i > j then raise (Failure "Echec! Votre argument doit etre >= 1") 
                                 else if i = j then IntSet.add i acc 
@@ -218,6 +220,7 @@ exception Failed of string
     * Rôle: Retourne le premier résultat de l’application de f à un élément de s qui ne lève pas l’exception Failed
     *  @param f => La fonction à appliquer sur les éléments de s
     *  @param s => Le IntSet à partir duquel try_first choisit les éléments pour leur appliquer la fonction f
+    * Exception : Lève une exception Failed si "s" est vide
 *)
 let rec try_first f s = 
   let exception_message = "Pas de chance! Aucun coloriage n'a ete trouve." in
