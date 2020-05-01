@@ -1,0 +1,4 @@
+Bonjour c'est un test de lexer OCaml.
+Le répertoire courant est : current_directory
+(*commentaire*)
+Au revoir!
