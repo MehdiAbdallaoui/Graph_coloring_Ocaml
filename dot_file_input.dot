@@ -1,0 +1,22 @@
+graph mon_graph{
+ a [style="filled", color=red]
+ b [style="filled", color=red]
+ c [style="filled", color=chartreuse]
+ d [style="filled", color=chartreuse]
+ e [style="filled", color=cyan]
+ f [style="filled", color=red]
+ a -- c ;
+ a -- d ;
+ a -- e ;
+ b -- d ;
+ c -- a ;
+ d -- a ;
+ d -- b ;
+ d -- e ;
+ d -- f ;
+ e -- a ;
+ e -- d ;
+ e -- f ;
+ f -- d ;
+ f -- e ;
+}

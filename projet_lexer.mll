@@ -1,13 +1,18 @@
 { }
 
 rule translate = parse
-  | "current_directory"
-   { print_string (Sys.getcwd ()) }
+  | " "* ['a'-'z' 'A'-'Z']+ " "* "["
+   (* activate "color" rule *)
+   { color lexbuf }
   | "(*"
    (* activate "comment" rule *)
    { comment lexbuf }
-  | _ as c  { print_char c }
-  | eof   { exit 0 }
+  | _ as c
+   (* print the current char *)
+   { print_char c }
+  | eof
+   (* exit *)
+   { exit 0 }
 
 and comment = parse
   | "*)" "\n"*
@@ -16,6 +21,14 @@ and comment = parse
   | _
    (* skip comments *)
    { comment lexbuf }
+
+and color = parse
+  | "]" "\n"*
+   (* go to the "translate" rule *)
+   { translate lexbuf }
+  | _
+   (* skip comments *)
+   { color lexbuf }
 
 {
   let main () =
