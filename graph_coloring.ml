@@ -320,3 +320,45 @@ to_dot_init_colors c;;
 let color_test = color graph c;;
 
 to_dot_coloriage color_test;;
+
+(*
+    *  fonction: couleur
+    *  Rôle: attribuer une couleur pour chaque entier entre 1 et 15 (possibilité d'attribuer 15 couleurs différentes aux noeuds)
+    *  @param code => un entier 
+    *  Return => une chaine de caractères  
+*)
+
+let couleur code = match code with
+  | 1 -> "red"
+  | 2 -> "chartreuse"
+  | 3 -> "cyan"
+  | 4 -> "gold"
+  | 5 -> "green"
+  | 6 -> "indigo"
+  | 7 -> "aliceblue"
+  | 8 -> "darkgoldenrod1"
+  | 9 -> "grey"
+  | 10 -> "magenta"
+  | 11 -> "navyblue"
+  | 12 -> "peru"
+  | 13 -> "seagreen4"
+  | 14 ->  "yellow4"
+  | 15 -> "tomato3"
+
+
+(*
+  QUESTION 13 :
+
+    *  fonction: formatdot 
+    *  Rôle : A partir d'un graphe et un coloriage des noeuds on affiche sur la sortie standard un graph au format DOT avec les différentes couleurs
+    *  @param g : graph de type 'graph'
+    *  @param c : coloriage de type coloring
+    *  Return => unit
+*)
+    
+let formatdot g c =
+  let col = color g c in
+  let _ = Printf.printf "graph mon_graph{\n" in
+  let _ = StringMap.iter (fun n colnumber -> Printf.printf " %s [style=\"filled\", color=%s]\n" n (couleur colnumber)) col in
+    let _ = StringMap.iter (fun u us -> StringSet.iter (fun x -> Printf.printf " %s -- %s ;\n" u x) us) g in
+      Printf.printf "}\n";;
