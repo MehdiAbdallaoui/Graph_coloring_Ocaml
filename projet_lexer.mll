@@ -1,7 +1,7 @@
 { }
 
 rule token = parse
-  | [’ ’ ’\t’ ’\n’]+
+  | [' ' '\t' '\n']+
    (* skip spaces *)
    { token lexbuf }
   | "(*"
@@ -20,9 +20,9 @@ and comment = parse
    { comment lexbuf }
 
 and translate = parse
-  | (*"current_directory" { print_string (Sys.getcwd ()) }
+  | "current_directory" { print_string (Sys.getcwd ()) }
   | _ as c  { print_char c }
-  | eof   { exit 0 }*) (*A MODIFIER POUR TRAITER LE FICHIER DOT DE LA QUESTION 13*)
+  | eof   { exit 0 } (*A MODIFIER POUR TRAITER LE FICHIER DOT DE LA QUESTION 13*)
 
 {
   let main () =
