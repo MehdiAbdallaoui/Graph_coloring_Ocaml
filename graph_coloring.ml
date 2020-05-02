@@ -329,7 +329,6 @@ to_dot_coloriage color_test;;
 *)
 
 let couleur code = match code with
-    0 -> failwith "Le code doit etre entre 1 et 15"
   | 1 -> "red"
   | 2 -> "chartreuse"
   | 3 -> "cyan"

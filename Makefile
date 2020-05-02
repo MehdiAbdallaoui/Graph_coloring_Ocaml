@@ -10,7 +10,7 @@ all: graph_coloring_interface graph_coloring lexer_exec projet_exec test_lexer_e
 %.cmi: %.mli
 	@echo "\n"
 	@echo "********************************"
-	@echo "*     Compiling .mli files      *"
+	@echo "*     Compiling .mli files     *"
 	@echo "********************************"
 	ocamlc -c $<
 
@@ -35,7 +35,7 @@ lexer_exec: projet_lexer.ml
 test_lexer_exec: lexer_exec dot_file_input.dot
 	@echo "\n"
 	@echo "**********************************"
-	@echo "* 	Testing the lexer	*"
+	@echo "* 	Testing the lexer	 *"
 	@echo "**********************************"
 	./lexer_exec < dot_file_input.dot
 
