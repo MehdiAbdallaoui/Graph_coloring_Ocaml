@@ -313,7 +313,7 @@ let color_test = color graph c
 
 let c = init_colors graph 3
 
-let color_test = color graph c
+let color_test = color graph c;;
 
 to_dot_coloriage color_test
 
