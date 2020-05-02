@@ -233,7 +233,7 @@ let rec try_first f s =
     * Rôle: Crée un IntSet ayant les valeurs de 1 à 4, puis on lui on applique 3 fonctions anonymes différentes pour couvrir
             les différents cas.
 *)
-let s =                             
+(*let s =                             
   let s0 = IntSet.add 1 IntSet.empty in
   let s0 = IntSet.add 2 s0 in
   let s0 = IntSet.add 3 s0 in
@@ -243,7 +243,7 @@ let try_first_test = try_first (fun x -> if x < 4 then raise (Failed "Echec") el
 
 let try_first_test = try_first (fun x -> if x < 5 then raise (Failed "Echec") else x) s
 
-let try_first_test = try_first (fun x -> if (x=1 || x=2) then raise (Failed "ERREUR 404") else x) s
+let try_first_test = try_first (fun x -> if (x=1 || x=2) then raise (Failed "ERREUR 404") else x) s*)
 
 
 (*
@@ -304,22 +304,18 @@ let graph =
   let g = add_edge "b" "d" g in
   let g = add_edge "d" "e" g in
   let g = add_edge "d" "f" g in          
-  add_edge "e" "f" g;;
-
-to_dot graph;;
+  add_edge "e" "f" g
 
 (* Cas d'aucun coloriage trouvé :
 let c = init_colors graph 2 in
 let color_test = color graph c
 *)
 
-let c = init_colors graph 3;;
+let c = init_colors graph 3
 
-to_dot_init_colors c;;
+let color_test = color graph c
 
-let color_test = color graph c;;
-
-to_dot_coloriage color_test;;
+to_dot_coloriage color_test
 
 (*
     *  fonction: couleur
@@ -363,3 +359,4 @@ let formatdot g c =
   let _ = StringMap.iter (fun n colnumber -> Printf.printf " %s [style=\"filled\", color=%s]\n" n (couleur colnumber)) col in
     let _ = StringMap.iter (fun u us -> StringSet.iter (fun x -> Printf.printf " %s -- %s ;\n" u x) us) g in
       Printf.printf "}\n"
+
