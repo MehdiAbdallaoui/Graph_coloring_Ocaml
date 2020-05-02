@@ -241,7 +241,7 @@ let rec try_first f s =
 
 let try_first_test = try_first (fun x -> if x < 4 then raise (Failed "Echec") else x) s
 
-(*let try_first_test = try_first (fun x -> if x < 5 then raise (Failed "Echec") else x) s*)
+let try_first_test = try_first (fun x -> if x < 5 then raise (Failed "Echec") else x) s
 
 let try_first_test = try_first (fun x -> if (x=1 || x=2) then raise (Failed "ERREUR 404") else x) s*)
 
