@@ -241,7 +241,7 @@ let rec try_first f s =
 
 let try_first_test = try_first (fun x -> if x < 4 then raise (Failed "Echec") else x) s
 
-let try_first_test = try_first (fun x -> if x < 5 then raise (Failed "Echec") else x) s
+(*let try_first_test = try_first (fun x -> if x < 5 then raise (Failed "Echec") else x) s*)
 
 let try_first_test = try_first (fun x -> if (x=1 || x=2) then raise (Failed "ERREUR 404") else x) s*)
 
@@ -358,5 +358,7 @@ let formatdot g c =
   let _ = Printf.printf "graph mon_graph{\n" in
   let _ = StringMap.iter (fun n colnumber -> Printf.printf " %s [style=\"filled\", color=%s]\n" n (couleur colnumber)) col in
     let _ = StringMap.iter (fun u us -> StringSet.iter (fun x -> Printf.printf " %s -- %s ;\n" u x) us) g in
-      Printf.printf "}\n"
+    Printf.printf "}\n";;
+
+formatdot graph c;;
 
