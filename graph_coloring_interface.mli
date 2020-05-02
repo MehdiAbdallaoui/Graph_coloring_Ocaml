@@ -40,3 +40,7 @@ val try_first : (int -> 'a) -> IntSet.t -> 'a
 type coloring
 
 val color : graph -> disp_color -> coloring
+
+val couleur : int -> string
+
+val formatdot : graph -> disp_color -> unit
