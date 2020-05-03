@@ -348,7 +348,7 @@ let couleur code = match code with
 
     *  fonction: formatdot 
     *  Rôle : A partir d'un graphe et un coloriage des noeuds on affiche sur la sortie standard un graph au format DOT avec les différentes couleurs
-    *  @param g : graph de type 'graph'
+    *  @param g : graphe de type 'graph'
     *  @param c : coloriage de type coloring
     *  Return => unit
 *)
