@@ -107,7 +107,7 @@ end
     * Rôle: Crée un module IntSet qui aura les mêmes attributs/fonctions que Set.Make avec les propriétés
             du module Int déclaré au-dessus
 *)
-module IntSet = Set.Make(Int) (* *)
+module IntSet = Set.Make(Int)
 (*fin module IntSet*)
 
 
