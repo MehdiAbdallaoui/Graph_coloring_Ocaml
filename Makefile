@@ -5,7 +5,7 @@ all: graph_coloring_interface graph_coloring lexer_exec projet_exec test_lexer_e
 	@echo "********************************"
 	@echo "*      Compiling .ml files     *"
 	@echo "********************************"
-	ocamlc $<
+	ocamlc -c $<
 
 %.cmi: %.mli
 	@echo "\n"
