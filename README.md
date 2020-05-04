@@ -2,12 +2,10 @@
 Étant donné un graphe non-orienté, un k-coloriage de ce graphe est une fonction qui associe à chaque sommet du graphe un entier
 entre 1 et k (une couleur) tel que deux voisins ont des couleurs différentes.
 
-Règles :
+Cas pratique :
 
-1) Une branche par section de questions
-2) Un commit+push pour chaque question
-3) Encapsuler chacune des fonctions dans un commentaire de type :
-   (*nom_fonction*)
-   Implémentation
-   (*fin nom_fonction*)
-4) En cas de nécessité de sauter une question, appliquer 3) en mettant "TODO" à la place de Implémentation
+- Taper sur le terminal la commande : make
+- Ceci génère les fichiers exécutables : projet_exec et lexer_exec
+- Un test du lexer se fait automatiquement en affichant le résultat sur le terminal
+- Afin de voir un exemple de coloriage appliqué sur le graphe de l'énoncé, veuillez taper sur le terminal la commande : ./projet_exec
+- En cas de besoin d'un autre graphe/coloriage, il serait possible de changer le graphe/coloriage de test à partir de la ligne 298 jusqu'à la ligne 312.
