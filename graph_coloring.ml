@@ -291,9 +291,7 @@ let rec color g c =
 (*
     * Exemple de test
     * Rôle: - Créer le graphe présenté sur l'énoncé
-            - L'afficher
             - Créer un map "c" qui associe 3 couleurs à tous les noeuds
-            - L'afficher
             - Appliquer la fonction "color" au graphe et map créé précédemment
             - Afficher le coloriage
 *)
@@ -321,7 +319,7 @@ to_dot_coloriage color_test
     *  fonction: couleur
     *  Rôle: attribuer une couleur pour chaque entier entre 1 et 15 (possibilité d'attribuer 15 couleurs différentes aux noeuds)
     *  @param code => un entier 
-    *  Return => une chaine de caractères  
+    *  Return => une chaîne de caractères  
 *)
 
 let couleur code = match code with
@@ -344,10 +342,8 @@ let couleur code = match code with
 
 
 (*
-  QUESTION 13 :
-
     *  fonction: formatdot 
-    *  Rôle : A partir d'un graphe et un coloriage des noeuds on affiche sur la sortie standard un graph au format DOT avec les différentes couleurs
+    *  Rôle : A partir d'un graphe et un coloriage des noeuds on affiche sur la sortie standard un graphe au format DOT avec les différentes couleurs
     *  @param g : graphe de type 'graph'
     *  @param c : coloriage de type coloring
     *  Return => unit
